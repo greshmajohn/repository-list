@@ -68,7 +68,7 @@ pipeline {
 	}
 	 post {
        		 always {
-        			echo "Delete all dangling reso
+        			echo "Delete unwanted resources"
         			deleteDir() /* clean up our workspace */
         			bat 'docker  system prune'
         			
