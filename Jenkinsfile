@@ -50,7 +50,7 @@ pipeline {
   
   						echo "username is $USERNAME"
   						
-  						bat 'docker login -u USERNAME -p "Jinkuttan@2017" docker.io'
+  						bat 'docker login -u="$USERNAME" -p "Jinkuttan@2017" docker.io'
 						bat 'docker tag emp-insurance greshmajithin/repository-list'
 						bat 'docker push greshmajithin/repository-list:latest'
 					}
