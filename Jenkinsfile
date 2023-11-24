@@ -7,7 +7,7 @@ pipeline {
 		jdk 'jdk17' 
 	}
 	
-	boolean buildSuccess = false:
+	boolean buildSuccess = false;
 	
 	stages{
 	
