@@ -46,7 +46,7 @@ pipeline {
    		 stage('Docker Deployment') {
 				steps{
 					echo "docker deployment"
-					bat 'echo $DOCKERHUB_CREDENTIALS_PSW | sudo docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin' 
+					bat 'echo $DOCKERHUB_CREDENTIALS_PSW  $DOCKERHUB_CREDENTIALS_USR ' 
 					
   						
   						
