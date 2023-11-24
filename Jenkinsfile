@@ -48,7 +48,7 @@ pipeline {
  						bat 'docker login -u $USERNAME -p $PASSWORD docker.io'
 						bat 'docker tag emp-insurance $USERNAME/repository-list'
 						bat 'docker push $USERNAME/repository-list:latest'
-						buildStatus = 'success';
+						${env.buildStatus} = 'success';
 					}
 					
 					/*bat 'docker login -u "greshmajithin" -p "Jinkuttan@2017" docker.io'
