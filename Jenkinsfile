@@ -1,3 +1,4 @@
+def buildStatus = 'failed';
 pipeline {
 
 	agent any
@@ -7,7 +8,7 @@ pipeline {
 		jdk 'jdk17' 
 	}
 	
-	boolean buildSuccess = false;
+
 	
 	stages{
 	
@@ -44,7 +45,7 @@ pipeline {
  						bat 'docker login -u $USERNAME -p $PASSWORD docker.io'
 						bat 'docker tag emp-insurance $USERNAME/repository-list'
 						bat 'docker push $USERNAME/repository-list:latest'
-						buildSuccess=true;
+						buildStatus = 'success';
 					}
 					
 					/*bat 'docker login -u "greshmajithin" -p "Jinkuttan@2017" docker.io'
@@ -66,13 +67,10 @@ pipeline {
 	}
 	 post {
         		always {
-        			if(buildSuccess){
-        				mail bcc: 'greshmaj99@gmail.com', body: "Deployment successful."+"\n"+"Job : '${env.JOB_NAME}'"+"\n"+"Build : '${env.BUILD_NUMBER}'"+"\n"+"Url : ${env.BUILD_URL}" , cc: '', from: '', replyTo: '', subject: "SUCCESSFUL: '${env.JOB_NAME}' ", to: ''
+        			
+        				mail bcc: 'greshmaj99@gmail.com', body: "Deployment "+buildStatus +"\n"+"Job : '${env.JOB_NAME}'"+"\n"+"Build : '${env.BUILD_NUMBER}'"+"\n"+"Url : ${env.BUILD_URL}" , cc: '', from: '', replyTo: '', subject: "SUCCESSFUL: '${env.JOB_NAME}' ", to: ''
         				
-        			}else{
-        				mail bcc: 'greshmaj99@gmail.com', body: "Deployment Failed."+"\n"+"Job : '${env.JOB_NAME}'"+"\n"+"Build : '${env.BUILD_NUMBER}'"+"\n"+"Url : ${env.BUILD_URL}" , cc: '', from: '', replyTo: '', subject: "SUCCESSFUL: '${env.JOB_NAME}' ", to: ''
-        				
-        			}
+        			
         			
         		}
         }
