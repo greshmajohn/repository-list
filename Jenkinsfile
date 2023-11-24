@@ -44,8 +44,8 @@ pipeline {
 					echo "docker deployment"
 					withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId:'dockerHub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
  					
- 						echo "username" +$USERNAME 
- 						echo $PASSWORD'
+ 						echo 'username $USERNAME '
+ 						echo ' pass $PASSWORD'
  					
  						bat 'docker login -u $USERNAME -p "Jinkuttan@2017" docker.io'
 						bat 'docker tag emp-insurance $USERNAME/repository-list'
