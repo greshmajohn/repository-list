@@ -42,21 +42,20 @@ pipeline {
    		 stage('Docker Deployment') {
 				steps{
 					echo "docker deployment"
-					withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId:'dockerHub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
- 					
- 						echo 'username $USERNAME '
- 						echo ' pass $PASSWORD'
- 					
- 						bat 'docker login -u $USERNAME -p "Jinkuttan@2017" docker.io'
-						bat 'docker tag emp-insurance $USERNAME/repository-list'
-						bat 'docker push $USERNAME/repository-list:latest'
-						
+					withCredentials([usernamePassword(credentialsId: 'dockerHub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+  
+  						bat 'echo $PASSWORD'
+  
+ 						 echo USERNAME
+  
+  						echo "username is $USERNAME"
 					}
 					
-					/*bat 'docker login -u "greshmajithin" -p "Jinkuttan@2017" docker.io'
+					
+					bat 'docker login -u "greshmajithin" -p "Jinkuttan@2017" docker.io'
 					bat 'docker tag emp-insurance greshmajithin/repository-list'
 					bat 'docker push greshmajithin/repository-list:latest'
-					buildSuccess=true;*/
+					buildSuccess=true;
 				}
     		  
    		 }
