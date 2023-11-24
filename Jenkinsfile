@@ -7,7 +7,7 @@ pipeline {
 		jdk 'jdk17' 
 	}
 	
-	
+	boolean buildSuccess = false:
 	
 	stages{
 	
@@ -40,11 +40,17 @@ pipeline {
    		 stage('Docker Deployment') {
 				steps{
 					echo "docker deployment"
+					withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId:'dockerHub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+ 						bat 'docker login -u $USERNAME -p $PASSWORD docker.io'
+						bat 'docker tag emp-insurance $USERNAME/repository-list'
+						bat 'docker push $USERNAME/repository-list:latest'
+						buildSuccess=true;
+					}
 					
-					bat 'docker login -u "greshmajithin" -p "Jinkuttan@2017" docker.io'
+					/*bat 'docker login -u "greshmajithin" -p "Jinkuttan@2017" docker.io'
 					bat 'docker tag emp-insurance greshmajithin/repository-list'
 					bat 'docker push greshmajithin/repository-list:latest'
-					
+					buildSuccess=true;*/
 				}
     		  
    		 }
@@ -60,8 +66,14 @@ pipeline {
 	}
 	 post {
         		always {
-        			mail bcc: 'greshmaj99@gmail.com', body: "Deployment successful."+"\n"+"Job : '${env.JOB_NAME}'"+"\n"+"Build : '${env.BUILD_NUMBER}'"+"\n"+"Url : ${env.BUILD_URL}" , cc: '', from: '', replyTo: '', subject: "SUCCESSFUL: '${env.JOB_NAME}' ", to: ''
-
+        			if(buildSuccess){
+        				mail bcc: 'greshmaj99@gmail.com', body: "Deployment successful."+"\n"+"Job : '${env.JOB_NAME}'"+"\n"+"Build : '${env.BUILD_NUMBER}'"+"\n"+"Url : ${env.BUILD_URL}" , cc: '', from: '', replyTo: '', subject: "SUCCESSFUL: '${env.JOB_NAME}' ", to: ''
+        				
+        			}else{
+        				mail bcc: 'greshmaj99@gmail.com', body: "Deployment Failed."+"\n"+"Job : '${env.JOB_NAME}'"+"\n"+"Build : '${env.BUILD_NUMBER}'"+"\n"+"Url : ${env.BUILD_URL}" , cc: '', from: '', replyTo: '', subject: "SUCCESSFUL: '${env.JOB_NAME}' ", to: ''
+        				
+        			}
+        			
         		}
         }
  
