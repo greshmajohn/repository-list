@@ -1,9 +1,7 @@
 
 pipeline {
 	
-	environment {
-   	 	buildStatus = 'failed';
-  	}
+	
 	agent any
 	
 	tools{
@@ -48,7 +46,7 @@ pipeline {
  						bat 'docker login -u $USERNAME -p $PASSWORD docker.io'
 						bat 'docker tag emp-insurance $USERNAME/repository-list'
 						bat 'docker push $USERNAME/repository-list:latest'
-						env.buildStatus = 'success';
+						
 					}
 					
 					/*bat 'docker login -u "greshmajithin" -p "Jinkuttan@2017" docker.io'
@@ -69,13 +67,26 @@ pipeline {
    		
 	}
 	 post {
-        		always {
-        			
-        				mail bcc: 'greshmaj99@gmail.com', body: "Deployment "+buildStatus +"\n"+"Job : '${env.JOB_NAME}'"+"\n"+"Build : '${env.BUILD_NUMBER}'"+"\n"+"Url : ${env.BUILD_URL}" , cc: '', from: '', replyTo: '', subject: "SUCCESSFUL: '${env.JOB_NAME}' ", to: ''
-        				
-        			
+       		 always {
+        			echo "Delete all dangling reso
+        			deleteDir() /* clean up our workspace */
+        			bat 'docker  system prune'
         			
         		}
+        	success {
+           		 echo 'Deployment successful !'
+           		 mail bcc: 'greshmaj99@gmail.com', body: "Deployment Success" +"\n"+"Job : '${env.JOB_NAME}'"+"\n"+"Build : '${env.BUILD_NUMBER}'"+"\n"+"Url : ${env.BUILD_URL}" , cc: '', from: '', replyTo: '', subject: "SUCCESSFUL: '${env.JOB_NAME}' ", to: ''
+        		
+      		  }
+        	unstable {
+            	echo 'Deployment Instable.'
+       		 }
+       		 failure {
+          		  echo 'Deployment Failed'
+          		  mail bcc: 'greshmaj99@gmail.com', body: "Deployment Failed" +"\n"+"Job : '${env.JOB_NAME}'"+"\n"+"Build : '${env.BUILD_NUMBER}'"+"\n"+"Url : ${env.BUILD_URL}" , cc: '', from: '', replyTo: '', subject: "SUCCESSFUL: '${env.JOB_NAME}' ", to: ''
+        		
+       		 }
+        
         }
  
   
