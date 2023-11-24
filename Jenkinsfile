@@ -32,7 +32,7 @@ pipeline {
 				steps{
 					echo "Build docker image"
 					
-					bat 'docker build -t emp-insurance:latest .'
+					bat 'docker build -t repository-list:latest .'
 					
 				}
     		  
@@ -42,8 +42,8 @@ pipeline {
 					echo "docker deployment"
 					
 					bat 'docker login -u "greshmajithin" -p "Jinkuttan@2017" docker.io'
-					bat 'docker tag emp-insurance greshmajithin/emp-insurance'
-					bat 'docker push greshmajithin/emp-insurance:latest'
+					bat 'docker tag emp-insurance greshmajithin/repository-list'
+					bat 'docker push greshmajithin/repository-list:latest'
 					
 				}
     		  
