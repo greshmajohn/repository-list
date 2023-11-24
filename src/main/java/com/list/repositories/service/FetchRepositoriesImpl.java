@@ -7,16 +7,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import lombok.extern.slf4j.Slf4j;
+
 /*
  * author =greshma.john
  * fetch repository list from external api-https://api.github.com/search/repositories.
  */
 
 @Service
+@Slf4j
 public class FetchRepositoriesImpl implements FetchRepositories {
-	
-	
-	
 
 	@Override
 	public String getRepositories(LocalDate date, String language
@@ -49,6 +49,8 @@ public class FetchRepositoriesImpl implements FetchRepositories {
 		 */
 		if(page!=null)
 			filterCondition=filterCondition+"&page="+page;
+		
+		log.info("filterConditions",filterCondition);
 	
 		return fetchRepositoriesFromRest(url+"&"+filterCondition);
 	}
@@ -58,6 +60,7 @@ public class FetchRepositoriesImpl implements FetchRepositories {
 	 */
 	
 	private String fetchRepositoriesFromRest(String url){
+		log.info("Final URL : ",url);
 		RestTemplate restTemplate=new RestTemplate();
 		
 		
