@@ -53,7 +53,7 @@ pipeline {
           				  print 'username.collect { it }=' + username.collect { it }
            				 print 'password.collect { it }=' + password.collect { it }
            				 
-           				 bat 'docker login -u username -p "Jinkuttan@2017" docker.io'
+           				 bat 'docker login -u ' +username+' -p "Jinkuttan@2017" docker.io'
          			 }
         		  
 						
