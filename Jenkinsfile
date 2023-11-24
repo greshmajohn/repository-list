@@ -1,6 +1,9 @@
-def buildStatus = 'failed';
-pipeline {
 
+pipeline {
+	
+	environment {
+   	 	buildStatus = 'failed';
+  	}
 	agent any
 	
 	tools{
