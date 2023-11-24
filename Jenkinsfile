@@ -1,5 +1,9 @@
 
 pipeline {
+
+	environment {     
+    	DOCKERHUB_CREDENTIALS= credentials('dockerHub')     
+	} 
 	
 	
 	agent any
@@ -42,21 +46,13 @@ pipeline {
    		 stage('Docker Deployment') {
 				steps{
 					echo "docker deployment"
-					withCredentials([usernamePassword(credentialsId: 'dockerHub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-  
-  						bat 'echo $PASSWORD'
-  
- 						 echo USERNAME
-  
-  						echo "username is $USERNAME"
+					bat 'echo $DOCKERHUB_CREDENTIALS_PSW | sudo docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin' 
+					
   						
-  						bat 'docker login -u="$USERNAME" -p "Jinkuttan@2017" docker.io'
+  						
+  						bat 'docker login -u greshmajithin -p "Jinkuttan@2017" docker.io'
 						bat 'docker tag emp-insurance greshmajithin/repository-list'
 						bat 'docker push greshmajithin/repository-list:latest'
-					}
-					
-					
-					
 					
 				}
     		  
