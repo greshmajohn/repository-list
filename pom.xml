@@ -37,11 +37,7 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>com.employee</groupId>
-			<artifactId>info</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
+		
 		<!-- Mockito extention -->
 		<dependency>
     		<groupId>org.mockito</groupId>
