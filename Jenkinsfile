@@ -55,7 +55,7 @@ pipeline {
 					bat 'docker login -u "greshmajithin" -p "Jinkuttan@2017" docker.io'
 					bat 'docker tag emp-insurance greshmajithin/repository-list'
 					bat 'docker push greshmajithin/repository-list:latest'
-					buildSuccess=true;
+					
 				}
     		  
    		 }
