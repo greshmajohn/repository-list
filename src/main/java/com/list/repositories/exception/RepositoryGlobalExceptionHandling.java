@@ -18,7 +18,7 @@ import jakarta.validation.ConstraintViolationException;
  */
 
 @RestControllerAdvice
-public class RepositoryGlobalException {
+public class RepositoryGlobalExceptionHandling {
 	
 	/*
 	 * Constraint violation handling invalid inputs .
@@ -41,19 +41,21 @@ public class RepositoryGlobalException {
 	public ResponseEntity<ExceptionResponseDao> handleMethodArgumentMismatchException(
 			MethodArgumentTypeMismatchException e) {
 		
-		String message = e.getLocalizedMessage();
-		
-		if(e.getRequiredType()!=null) {
+		String message = e.getMessage();
+		String reType=e.getRequiredType()==null?null:e.getRequiredType().getSimpleName();
+		if(reType!=null) {
 			message = String.format("'%s' should be a valid '%s' and the input '%s' provided is an invalid .",
-					e.getName(), e.getRequiredType().getSimpleName(), e.getValue());
-		
+					e.getName(), reType, e.getValue());
 		}
+			
 			
 		return new ResponseEntity<>(
 				new ExceptionResponseDao("MethodArgumentTypeMismatchException", message, HttpStatus.BAD_REQUEST.name()),
 				HttpStatus.BAD_REQUEST);
 
 	}
+	
+
 	/*
 	 * Exception while fetching Rest API response
 	 */
@@ -63,8 +65,8 @@ public class RepositoryGlobalException {
 		String title = "RestClientException";
 		String msg = e.getMessage();
 
-		if (e instanceof HttpClientErrorException) {
-			HttpClientErrorException ex = (HttpClientErrorException) e;
+		if (e instanceof HttpClientErrorException ex) {
+
 			title = "HttpClientErrorException- " + ex.getStatusText();
 			msg = formatExceptionMessage(ex.getResponseBodyAsString());
 		}

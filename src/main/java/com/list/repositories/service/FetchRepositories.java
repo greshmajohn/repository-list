@@ -14,5 +14,4 @@ public interface FetchRepositories {
 	 */
 
 	public String getRepositories(LocalDate attributes, String language, Integer page, Integer pageSize);
-
 }

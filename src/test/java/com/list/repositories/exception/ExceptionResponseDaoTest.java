@@ -20,7 +20,7 @@ class ExceptionResponseDaoTest {
 		dao1.setTitle(dao.getTitle());
 		dao1.setExceptionMessages(dao.getExceptionMessages());
 		dao1.setStatus(dao.getStatus());
-		Assertions.assertTrue(dao1.equals(dao));
+		Assertions.assertEquals(dao1,dao);
 		log.info("hashcode value" + dao.hashCode());
 		log.info("object string" + dao1.toString());
 		Assertions.assertEquals(dao, dao1);

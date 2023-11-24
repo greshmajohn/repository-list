@@ -2,10 +2,12 @@ package com.list.repositories.service;
 
 import java.time.LocalDate;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
+import org.json.JSONException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,10 +19,12 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 public class FetchRepositoriesImpl implements FetchRepositories {
+	
+	public static final String ITEM="items";
 
 	@Override
 	public String getRepositories(LocalDate date, String language
-			,Integer page,Integer pageSize) {
+			,Integer page,Integer pageSize)  {
 		/*
 		 * external git.api url . sort star repositories order by number of stars
 		 */
@@ -59,16 +63,15 @@ public class FetchRepositoriesImpl implements FetchRepositories {
 	 * RestTemplate API call.
 	 */
 	
-	private String fetchRepositoriesFromRest(String url){
-		log.info("Final URL : ",url);
-		RestTemplate restTemplate=new RestTemplate();
+	private String fetchRepositoriesFromRest(String url)  {
+		log.info("Final URL : ", url);
+		RestTemplate restTemplate = new RestTemplate();
+		return restTemplate.getForObject(url, String.class);
 		
-		
-		return restTemplate.getForObject(
-				url,
-				  String.class);
-		
+
 	}
+
+	
 
 
 }

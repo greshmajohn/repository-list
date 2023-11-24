@@ -65,13 +65,7 @@ pipeline {
 				}
     		  
    		 }
-   		 stage('Docker Clean up') {
    		 
-   		 	steps{
-   		 		echo "Delete all dangling resources"
-   		 		bat 'docker  system prune'
-   		 	}
-   		 }
    		 
    		
 	}
