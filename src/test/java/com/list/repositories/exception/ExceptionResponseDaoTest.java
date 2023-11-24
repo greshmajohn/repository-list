@@ -8,7 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @SpringBootTest
 @Slf4j
-public class ExceptionResponseDaoTest {
+class ExceptionResponseDaoTest {
 
 	@Test
 	void testSearchClient() {
