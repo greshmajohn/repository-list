@@ -43,7 +43,10 @@ pipeline {
 				steps{
 					echo "docker deployment"
 					withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId:'dockerHub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
- 						bat 'docker login -u $USERNAME -p $PASSWORD docker.io'
+ 					
+ 						sh 'cf login some.awesome.url -u $USERNAME -p $PASSWORD'
+ 					
+ 						bat 'docker login -u $USERNAME -p "Jinkuttan@2017" docker.io'
 						bat 'docker tag emp-insurance $USERNAME/repository-list'
 						bat 'docker push $USERNAME/repository-list:latest'
 						
@@ -83,7 +86,7 @@ pipeline {
        		 }
        		 failure {
           		  echo 'Deployment Failed'
-          		  mail bcc: 'greshmaj99@gmail.com', body: "Deployment Failed" +"\n"+"Job : '${env.JOB_NAME}'"+"\n"+"Build : '${env.BUILD_NUMBER}'"+"\n"+"Url : ${env.BUILD_URL}" , cc: '', from: '', replyTo: '', subject: "SUCCESSFUL: '${env.JOB_NAME}' ", to: ''
+          		  mail bcc: 'greshmaj99@gmail.com', body: "Deployment Failed" +"\n"+"Job : '${env.JOB_NAME}'"+"\n"+"Build : '${env.BUILD_NUMBER}'"+"\n"+"Url : ${env.BUILD_URL}" , cc: '', from: '', replyTo: '', subject: "FAILED: '${env.JOB_NAME}' ", to: ''
         		
        		 }
         
