@@ -47,6 +47,13 @@ pipeline {
 				steps{
 					echo "docker deployment"
 					bat 'echo $DOCKERHUB_CREDENTIALS_PSW  $DOCKERHUB_CREDENTIALS_USR ' 
+					withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
+        			   bat '''
+              			echo $USERNAME > tmp
+             			 echo $PASSWORD >> tmp
+           				 '''
+         			 }
+        		  	bat 'type tmp'
 					
   						
   						
