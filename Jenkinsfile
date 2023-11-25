@@ -40,8 +40,8 @@ pipeline {
 		stage('Sonar scan and quality gate') {
    			steps{
 				 withSonarQubeEnv('SonarQube') {
-           		 	bat "${scannerHome}/bin/sonar-scanner -X -Dsonar.login=sqa_6ae6e7978548e190725e41f56860e196d2173e3a"^
-           		 	bat "-Dsonar.jacoco.reportPath=target/jacoco.exec"^
+           		 	bat "${scannerHome}/bin/sonar-scanner -X  -Dproject.settings=./sonar-project.properties"
+           		 	bat "-Dsonar.jacoco.reportPath=target/jacoco.exec"
        			 }
         		
 			}
