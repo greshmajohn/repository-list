@@ -11,6 +11,7 @@ pipeline {
 	tools{
 		maven "Maven"
 		jdk 'jdk17' 
+		sonarQube 'SonarQubeScanner'
 	}
 	
 
@@ -29,18 +30,17 @@ pipeline {
 				 bat 'mvn clean install -DskipTests'
 			}
 		}
-		stage('test') {
+		stage('Sonar scan and quality gate') {
    			steps{
-				 bat "mvn test -Punit"
+				 withSonarQubeEnv('sonarqube') {
+           		 	bat "${scannerHome}/bin/sonar-scanner"
+       			 }
+        		timeout(time: 10, unit: 'MINUTES') {
+            		waitForQualityGate abortPipeline: true
+       			 }
 			}
 		}
-		stage("SonarQube analysis") {
-          steps {
-              withSonarQubeEnv('My SonarQube Server') {
-                 bat 'sonar:sonar'
-              }
-          }
-      	}
+		
       	
 		stage('Docker Build') {
 				steps{
