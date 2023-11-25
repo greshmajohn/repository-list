@@ -41,7 +41,7 @@ pipeline {
    			steps{
 				 withSonarQubeEnv('SonarQube') {
            		 	bat "${scannerHome}/bin/sonar-scanner -X  -Dproject.settings=./sonar-project.properties"
-           		 	bat "-Dsonar.jacoco.reportPath=target/jacoco.exec"
+           		 	
        			 }
         		
 			}
