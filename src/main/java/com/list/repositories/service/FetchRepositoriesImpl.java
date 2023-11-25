@@ -2,12 +2,10 @@ package com.list.repositories.service;
 
 import java.time.LocalDate;
 
-import org.json.JSONException;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -54,7 +52,7 @@ public class FetchRepositoriesImpl implements FetchRepositories {
 		if(page!=null)
 			filterCondition=filterCondition+"&page="+page;
 		
-		log.info("filterConditions",filterCondition);
+		log.info("filterConditions"+filterCondition);
 	
 		return fetchRepositoriesFromRest(url+"&"+filterCondition);
 	}
@@ -64,11 +62,27 @@ public class FetchRepositoriesImpl implements FetchRepositories {
 	 */
 	
 	private String fetchRepositoriesFromRest(String url)  {
-		log.info("Final URL : ", url);
+		log.info("Final URL : "+ url);
 		RestTemplate restTemplate = new RestTemplate();
-		return restTemplate.getForObject(url, String.class);
+		String resp=restTemplate.getForObject(url, String.class);
+		printLength(resp);
+		return resp;
+	
 		
 
+	}
+	/*
+	 * Just to println the number of repository objects
+	 */
+
+	private void printLength(String resp) {
+		JSONObject jsonFormat=new JSONObject(resp);
+		if(jsonFormat!=null&&jsonFormat.has(ITEM)) {
+			JSONArray jsonItem=jsonFormat.getJSONArray(ITEM);
+			log.info("*****Repository length****:"+jsonItem.length());
+		}
+		
+		
 	}
 
 	

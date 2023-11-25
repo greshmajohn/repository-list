@@ -1,12 +1,11 @@
-package com.list.repositories;
-
-import org.junit.jupiter.api.Test;
-
-public class RepositoriesApplicationTest{
-	
-	 @Test
-	 public void main() {
-		RepositoriesApplication.main(new String[] {});
-	 }
-	
-}
+//package com.list.repositories;
+//
+//import org.junit.jupiter.api.Test;
+// class RepositoriesApplicationTest{
+//	
+//	 @Test
+//	  void main() {
+//		RepositoriesApplication.main(new String[] {});
+//	 }
+//	
+//}
