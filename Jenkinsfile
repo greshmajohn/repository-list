@@ -28,7 +28,7 @@ pipeline {
 		
 		stage('Build') {
    			steps{
-				 bat 'mvn clean install -s C:/Users/jithi/Documents/softwares/apache-maven-3.9.4-bin/apache-maven-3.9.4/conf/settings.xml'
+				 bat 'mvn clean install '
 			}
 		}
 		stage('coverage'){
@@ -41,7 +41,7 @@ pipeline {
    			steps{
 				 withSonarQubeEnv('SonarQube') {
            		 	bat "mvn ${scannerHome}/bin/sonar-scanner -X  -Dproject.settings=sonar-project.properties"
-           		 	bat 'mvn sonar:sonar -Pcoverage'
+           		 	
            		 	
        			 }
         		
