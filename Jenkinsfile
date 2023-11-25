@@ -40,7 +40,7 @@ pipeline {
 		stage('Sonar scan and quality gate') {
    			steps{
 				 withSonarQubeEnv('SonarQube') {
-           		 	bat "mvn ${scannerHome}/bin/sonar-scanner -X  -Dproject.settings=sonar-project.properties"
+           		 	bat " ${scannerHome}/bin/sonar-scanner -X  -Dproject.settings=sonar-project.properties"
            		 	
            		 	
        			 }
