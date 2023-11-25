@@ -33,12 +33,9 @@ pipeline {
 		}
 		stage('coverage'){
 		
-			step([$class: 'JacocoPublisher', 
-     		 execPattern: 'target/*.exec',
-    		  classPattern: 'target/classes',
-     		 sourcePattern: 'src/main/java',
-      		exclusionPattern: 'src/test*'
-			])
+			steps{
+				jacoco classPattern: 'target/classes', execPattern: 'target/jacoco.exec', sourceExclusionPattern: 'src/test*'
+			}
 		}
 		stage('Sonar scan and quality gate') {
    			steps{
