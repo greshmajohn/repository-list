@@ -25,8 +25,8 @@ public class FetchRepositoriesImplTest {
 			+ "      \"private\": false,\r\n" + "      \"owner\": {\r\n" + "        \"login\": \"go-kratos\",\r\n"
 			+ "        \"id\": 62791634,\r\n" + "        \"node_id\": \"MDEyOk9yZ2FuaXphdGlvbjYyNzkxNjM0\",\r\n"
 			+ "        \"avatar_url\": \"https://avatars.githubusercontent.com/u/62791634?v=4\",\r\n"
-			+ "        \"gravatar_id\": \"\"\r\n" + "	},\r\n" + "	\"size\": 9445,\r\n"
-			+ "      \"stargazers_count\": 21709,\r\n" + "	 \"language\": \"Go\",\r\n" + "   ]\r\n" + "}";
+			+ "        \"gravatar_id\": \"\"\r\n" + "},\r\n" + "\"size\": 9445,\r\n"
+			+ "      \"stargazers_count\": 21709,\r\n" + "\"language\": \"Go\",\r\n" + "   ]\r\n" + "}";
 	public static final String REPOSITORY_JSON_ERROR_CONST = "{\r\n"
 			+ "  \"message\": \"Only the first 1000 search results are available\",\r\n"
 			+ "  \"documentation_url\": \"https://docs.github.com/v3/search/\"\r\n" + "}";
@@ -58,7 +58,6 @@ public class FetchRepositoriesImplTest {
 		Mockito.when(restTemplate.getForObject(URL + CREATED_QUERY + LocalDate.now(), String.class))
 				.thenReturn(REPOSITORY_JSON_CONST);
 		String repositoryJson = fetchRepoService.getRepositories(LocalDate.now(), null, null, null);
-		System.out.println("repositoryJson" + repositoryJson);
 		Assertions.assertNotNull(repositoryJson);
 	}
 

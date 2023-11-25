@@ -20,9 +20,7 @@ import com.list.repositories.service.FetchRepositories;
 @WebMvcTest(ListRepositoriesController.class)
 public class ListRepositoriesControllerTest {
 
-	public static final String message = "{\r\n"
-			+ "  \"message\": \"Only the first 1000 search results are available\",\r\n"
-			+ "  \"documentation_url\": \"https://docs.github.com/v3/search/\"\r\n" + "}";
+	
 
 	@Autowired
 	MockMvc mvc;

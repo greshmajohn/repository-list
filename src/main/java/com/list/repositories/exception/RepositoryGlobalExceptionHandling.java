@@ -19,10 +19,10 @@ import jakarta.validation.ConstraintViolationException;
 
 @RestControllerAdvice
 public class RepositoryGlobalExceptionHandling {
-	
+
 	/*
-	 * Constraint violation handling invalid inputs .
-	 * eg: pageSize=200, maximum page isze expected is 100
+	 * Constraint violation handling invalid inputs . eg: pageSize=200, maximum page
+	 * isze expected is 100
 	 */
 
 	@ExceptionHandler(ConstraintViolationException.class)
@@ -40,21 +40,15 @@ public class RepositoryGlobalExceptionHandling {
 	@ExceptionHandler(MethodArgumentTypeMismatchException.class)
 	public ResponseEntity<ExceptionResponseDao> handleMethodArgumentMismatchException(
 			MethodArgumentTypeMismatchException e) {
-		
-		String message = e.getMessage();
-		String reType=e.getRequiredType()==null?null:e.getRequiredType().getSimpleName();
-		if(reType!=null) {
-			message = String.format("'%s' should be a valid '%s' and the input '%s' provided is an invalid .",
-					e.getName(), reType, e.getValue());
-		}
-			
-			
+
+		String message = String.format("'%s' should be a valid '%s' and the input '%s' provided is an invalid .",
+				e.getName(), e.getRequiredType().getSimpleName(), e.getValue());
+
 		return new ResponseEntity<>(
 				new ExceptionResponseDao("MethodArgumentTypeMismatchException", message, HttpStatus.BAD_REQUEST.name()),
 				HttpStatus.BAD_REQUEST);
 
 	}
-	
 
 	/*
 	 * Exception while fetching Rest API response
@@ -76,10 +70,8 @@ public class RepositoryGlobalExceptionHandling {
 	}
 
 	private String formatExceptionMessage(String message) {
-		JSONObject responseJson=new JSONObject(message);
-		return "Could not get result from git api. "+responseJson.getString("message");
+		JSONObject responseJson = new JSONObject(message);
+		return "Could not get result from git api. " + responseJson.getString("message");
 	}
-	
-	
 
 }
