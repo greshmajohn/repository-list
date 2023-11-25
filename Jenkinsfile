@@ -33,8 +33,8 @@ pipeline {
 		}
 		stage('Sonar scan and quality gate') {
    			steps{
-				 withSonarQubeEnv('SonarQube',credentialsId: 'sqa_6ae6e7978548e190725e41f56860e196d2173e3a') {
-           		 	bat "${scannerHome}/bin/sonar-scanner"
+				 withSonarQubeEnv('SonarQube') {
+           		 	bat "${scannerHome}/bin/sonar-scanner -X -Dsonar.login=sqa_6ae6e7978548e190725e41f56860e196d2173e3a"
        			 }
         		timeout(time: 10, unit: 'MINUTES') {
             		waitForQualityGate abortPipeline: true
