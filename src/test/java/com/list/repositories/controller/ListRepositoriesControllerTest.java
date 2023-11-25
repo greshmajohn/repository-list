@@ -18,7 +18,7 @@ import org.springframework.web.client.RestClientException;
 import com.list.repositories.service.FetchRepositories;
 
 @WebMvcTest(ListRepositoriesController.class)
-public class ListRepositoriesControllerTest {
+class ListRepositoriesControllerTest {
 
 	
 
