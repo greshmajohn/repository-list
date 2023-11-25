@@ -44,7 +44,7 @@ pipeline {
       			  -Dsonar.jacoco.reportPath=target/jacoco.exec \
      			   -Dsonar.junit.reportsPath=target/surefire-reports \
        				 -Dsonar.sources=.'''
-           		 	 }
+           		 	 
 				 }
         		
 			}
