@@ -33,7 +33,7 @@ pipeline {
 		}
 		stage('Sonar scan and quality gate') {
    			steps{
-				 withSonarQubeEnv('sonarqube') {
+				 withSonarQubeEnv {
            		 	bat "${scannerHome}/bin/sonar-scanner"
        			 }
         		timeout(time: 10, unit: 'MINUTES') {
