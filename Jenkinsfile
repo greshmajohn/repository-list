@@ -40,7 +40,8 @@ pipeline {
 		stage('Sonar scan and quality gate') {
    			steps{
 				 withSonarQubeEnv('SonarQube') {
-           		 	bat "${scannerHome}/bin/sonar-scanner -X  -Dproject.settings=sonar-project.properties"
+           		 	bat "mvn ${scannerHome}/bin/sonar-scanner -X  -Dproject.settings=sonar-project.properties"
+           		 	bat 'mvn sonar:sonar -Pcoverage'
            		 	
        			 }
         		
