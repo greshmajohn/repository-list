@@ -31,6 +31,15 @@ pipeline {
 				 bat 'mvn clean install -DskipTests'
 			}
 		}
+		stage('coverage'){
+		
+			step([$class: 'JacocoPublisher', 
+     		 execPattern: 'target/*.exec',
+    		  classPattern: 'target/classes',
+     		 sourcePattern: 'src/main/java',
+      		exclusionPattern: 'src/test*'
+			])
+		}
 		stage('Sonar scan and quality gate') {
    			steps{
 				 withSonarQubeEnv('SonarQube') {
@@ -39,15 +48,7 @@ pipeline {
         		
 			}
 		}
-		stage("Quality Gate") {
-            steps {
-                timeout(time: 1, unit: 'HOURS') {
-                    // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
-                    // true = set pipeline to UNSTABLE, false = don't
-                    waitForQualityGate abortPipeline: true
-                }
-            }
-        }
+		
 		
       	
 		stage('Docker Build') {
