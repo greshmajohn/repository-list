@@ -2,7 +2,8 @@
 pipeline {
 
 	environment {     
-    	DOCKERHUB_CREDENTIALS= credentials('dockerHub')     
+    	DOCKERHUB_CREDENTIALS= credentials('dockerHub')   
+    	scannerHome = tool 'SonarQubeScanner'  
 	} 
 	
 	
@@ -11,7 +12,7 @@ pipeline {
 	tools{
 		maven "Maven"
 		jdk 'jdk17' 
-		sonarQube 'SonarQubeScanner'
+		
 	}
 	
 
