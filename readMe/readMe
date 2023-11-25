@@ -1,0 +1,40 @@
+
+
+Requirement:
+
+The service should be able to provide:
+A list of the most popular repositories, sorted by number of stars.
+An option to be able to view the top 10, 50, 100 repositories should be available.
+Given a date, the most popular repositories created from this date onwards should be returned.
+A filter for the programming language would be a great addition to have.
+
+Implementation Details
+GitHub provides a public search end point which you can use for fetching the most popular Repositories:
+https://api.github.com/search/repositories?q=created:2019-01-10&sort=stars&order=desc
+But feel free to use any other endpoints, if you wish.
+We will really value concise and clean code, scalability, performance, and testing.
+
+
+Implementation:
+
+Response from git.api is fetched using RestTemplate. By default, request url will search for most popular repositories having star value greater than zero .
+Url contain a mantatory search conditions "q". Provision to sort based on any available attributes, pagination , page size are also available in git.api by default.
+For each request 30 items will be fetched however the size of list can be customized by using per_page attribute. 
+More than 100 records cannot be fetched at a time as per the implementation.
+Based on the requirement, search conditions are altered to get result as a String.
+
+Custom exception class is created to handle the exceptions thrown from code including ConstraintViolationException,RestClientException etc.
+Junit are written to automate the testing and declarative jenkin pipeline for CICD.
+
+
+Technologies/Tools Used in the application
+
+	1.Java 17 , Base language used
+	2.Spring Boot - 3.1.5 , Framework 
+	3. maven - 3.9.4 , Building tool
+	4. Jacoco -0.8.11 , code coverage
+	5. Sonar qube -10.3.0 , scan the project for quality check
+	6. Jenkins 2.414.3 , CICD pipeline
+	7. Docker 24.0.6 , containerization and deployment
+
+
