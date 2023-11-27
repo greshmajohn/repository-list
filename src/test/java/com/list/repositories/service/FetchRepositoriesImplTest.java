@@ -11,22 +11,54 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.client.RestTemplate;
 
-@ExtendWith(SpringExtension.class)
+import com.list.repositories.controller.ListRepositoriesController;
+
+@SpringBootTest
 public class FetchRepositoriesImplTest {
 
-	public static final String REPOSITORY_JSON_CONST = "{\r\n" + "  \"total_count\": 42068,\r\n"
-			+ "  \"incomplete_results\": false,\r\n" + "  \"items\": [\r\n" + "    {\r\n"
-			+ "      \"id\": 165041732,\r\n" + "      \"node_id\": \"MDEwOlJlcG9zaXRvcnkxNjUwNDE3MzI=\",\r\n"
-			+ "      \"name\": \"kratos\",\r\n" + "      \"full_name\": \"go-kratos/kratos\",\r\n"
-			+ "      \"private\": false,\r\n" + "      \"owner\": {\r\n" + "        \"login\": \"go-kratos\",\r\n"
-			+ "        \"id\": 62791634,\r\n" + "        \"node_id\": \"MDEyOk9yZ2FuaXphdGlvbjYyNzkxNjM0\",\r\n"
-			+ "        \"avatar_url\": \"https://avatars.githubusercontent.com/u/62791634?v=4\",\r\n"
-			+ "        \"gravatar_id\": \"\"\r\n" + "},\r\n" + "\"size\": 9445,\r\n"
-			+ "      \"stargazers_count\": 21709,\r\n" + "\"language\": \"Go\",\r\n" + "   ]\r\n" + "}";
+	public static final String REPOSITORY_JSON_CONST = "{\r\n"
+			+ "    \"total_count\": 16093945,\r\n"
+			+ "    \"incomplete_results\": true,\r\n"
+			+ "    \"items\": [\r\n"
+			+ "        {\r\n"
+			+ "            \"id\": 60493101,\r\n"
+			+ "            \"node_id\": \"MDEwOlJlcG9zaXRvcnk2MDQ5MzEwMQ==\",\r\n"
+			+ "            \"name\": \"coding-interview-university\",\r\n"
+			+ "            \"full_name\": \"jwasham/coding-interview-university\",\r\n"
+			+ "            \"private\": false,\r\n"
+			+ "            \"owner\": {\r\n"
+			+ "                \"login\": \"jwasham\",\r\n"
+			+ "                \"id\": 3771963,\r\n"
+			+ "                \"node_id\": \"MDQ6VXNlcjM3NzE5NjM=\",\r\n"
+			+ "                \"avatar_url\": \"https://avatars.githubusercontent.com/u/3771963?v=4\",\r\n"
+			+ "                \"gravatar_id\": \"\",\r\n"
+			+ "                \"url\": \"https://api.github.com/users/jwasham\",\r\n"
+			+ "                \"html_url\": \"https://github.com/jwasham\",\r\n"
+			+ "                \"followers_url\": \"https://api.github.com/users/jwasham/followers\",\r\n"
+			+ "                \"following_url\": \"https://api.github.com/users/jwasham/following{/other_user}\",\r\n"
+			+ "                \"gists_url\": \"https://api.github.com/users/jwasham/gists{/gist_id}\",\r\n"
+			+ "                \"starred_url\": \"https://api.github.com/users/jwasham/starred{/owner}{/repo}\",\r\n"
+			+ "                \"subscriptions_url\": \"https://api.github.com/users/jwasham/subscriptions\",\r\n"
+			+ "                \"organizations_url\": \"https://api.github.com/users/jwasham/orgs\",\r\n"
+			+ "                \"repos_url\": \"https://api.github.com/users/jwasham/repos\",\r\n"
+			+ "                \"events_url\": \"https://api.github.com/users/jwasham/events{/privacy}\",\r\n"
+			+ "                \"received_events_url\": \"https://api.github.com/users/jwasham/received_events\",\r\n"
+			+ "                \"type\": \"User\",\r\n"
+			+ "                \"site_admin\": false\r\n"
+			+ "            },\r\n"
+			+ "		 \"stargazers_count\": 164453,\r\n"
+			+ "            \"watchers_count\": 164453,\r\n"
+			+ "            \"language\": \"Shell\"\r\n"
+			+ "		}]\r\n"
+			+ "}";
 	public static final String REPOSITORY_JSON_ERROR_CONST = "{\r\n"
 			+ "  \"message\": \"Only the first 1000 search results are available\",\r\n"
 			+ "  \"documentation_url\": \"https://docs.github.com/v3/search/\"\r\n" + "}";
@@ -37,8 +69,10 @@ public class FetchRepositoriesImplTest {
 	@InjectMocks
 	FetchRepositoriesImpl fetchRepoService;
 
-	@Mock
+	@MockBean
 	private RestTemplate restTemplate;
+	
+	
 
 	@BeforeEach
 	public void init() {
@@ -47,8 +81,8 @@ public class FetchRepositoriesImplTest {
 
 	@Test
 	void getRepositoriesDefault() {
-
-		Mockito.when(restTemplate.getForObject(URL, String.class)).thenReturn(REPOSITORY_JSON_CONST);
+		Mockito.when(restTemplate.getForObject(URL , String.class))
+		.thenReturn(REPOSITORY_JSON_CONST);
 		String repositoryJson = fetchRepoService.getRepositories(null, null, null, null);
 		Assertions.assertNotNull(repositoryJson);
 	}
@@ -76,5 +110,13 @@ public class FetchRepositoriesImplTest {
 		String repositoryJson = fetchRepoService.getRepositories(null, null, 2, 20);
 		Assertions.assertNotNull(repositoryJson);
 	}
+	@Test
+	void getRepositoriesWithNull() {
+		Mockito.when(restTemplate.getForObject(URL , String.class))
+				.thenReturn(REPOSITORY_JSON_ERROR_CONST);
+		String repositoryJson = fetchRepoService.getRepositories(null, null, null, null);
+		Assertions.assertNotNull(repositoryJson);
+	}
+	
 
 }
