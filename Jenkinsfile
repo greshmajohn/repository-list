@@ -65,7 +65,7 @@ pipeline {
            				 print 'password.collect { it }=' + password.collect { it }
            				 
            				 bat 'docker login -u ' +username+' -p '+ password +' docker.io'
-           				 bat 'docker tag emp-insurance '+username+'/repository-list'
+           				 bat 'docker tag repository-list '+username+'/repository-list'
 						 bat 'docker push '+username+'/repository-list:latest'
          			 }
         		  
